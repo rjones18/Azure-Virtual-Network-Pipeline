@@ -18,7 +18,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/iac@master
+        env:
+         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+         args: iac test .
+        continue-on-error: true
+      
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
